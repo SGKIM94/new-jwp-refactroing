@@ -20,24 +20,34 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 	@DisplayName("품목을 생성한다.")
 	@Test
 	void createProduct() {
-		//given
-		ProductRequest params = 품목을_생성한다();
-
-		// when
-		ExtractableResponse<Response> response = 품목_생성을_요청한다(params);
+		//when
+		ExtractableResponse<Response> response = 품목_생성을_요청한다("테스트 상품", 20000);
 
 		// then
 		품목이_생성됨(response);
 	}
 
-	private ProductRequest 품목을_생성한다() {
-		return new ProductRequest("테스트 상품", BigDecimal.valueOf(20000));
+	@DisplayName("품목을 조회한다.")
+	@Test
+	void listProduct() {
+		//given
+		품목_생성을_요청한다("테스트 상품", 20000);
+
+		// when
+		ExtractableResponse<Response> response = RestAssured
+				.given().log().all()
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when().get("/api/products")
+				.then().log().all().extract();
+
+		// then
+		Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 	}
 
-	private ExtractableResponse<Response> 품목_생성을_요청한다(ProductRequest params) {
+	private ExtractableResponse<Response> 품목_생성을_요청한다(String name, int price) {
 		return RestAssured
 					.given().log().all()
-					.body(params)
+					.body(new ProductRequest(name, BigDecimal.valueOf(price)))
 					.contentType(MediaType.APPLICATION_JSON_VALUE)
 					.when().post("/api/products")
 					.then().log().all().extract();
