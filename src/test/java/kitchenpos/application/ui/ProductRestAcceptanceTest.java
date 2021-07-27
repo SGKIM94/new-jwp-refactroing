@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 public class ProductRestAcceptanceTest extends AcceptanceTest {
 
 
+	public static final String PRODUCT_API_BASE_URL = "/api/products";
+
 	@DisplayName("품목을 생성한다.")
 	@Test
 	void createProduct() {
@@ -34,14 +36,18 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 		품목_생성을_요청한다("테스트 상품", 20000);
 
 		// when
-		ExtractableResponse<Response> response = RestAssured
-				.given().log().all()
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.when().get("/api/products")
-				.then().log().all().extract();
+		ExtractableResponse<Response> response = 품목_조회를_요청한다();
 
 		// then
-		Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+		품목이_조회됨(response);
+	}
+
+	private ExtractableResponse<Response> 품목_조회를_요청한다() {
+		return RestAssured
+					.given().log().all()
+					.contentType(MediaType.APPLICATION_JSON_VALUE)
+					.when().get(PRODUCT_API_BASE_URL)
+					.then().log().all().extract();
 	}
 
 	private ExtractableResponse<Response> 품목_생성을_요청한다(String name, int price) {
@@ -49,11 +55,15 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 					.given().log().all()
 					.body(new ProductRequest(name, BigDecimal.valueOf(price)))
 					.contentType(MediaType.APPLICATION_JSON_VALUE)
-					.when().post("/api/products")
+					.when().post(PRODUCT_API_BASE_URL)
 					.then().log().all().extract();
 	}
 
 	private void 품목이_생성됨(ExtractableResponse<Response> response) {
 		Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+	}
+
+	private void 품목이_조회됨(ExtractableResponse<Response> response) {
+		Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 	}
 }
