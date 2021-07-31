@@ -17,16 +17,25 @@ public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
 	@Test
 	void createMenuGroup() {
 		// when
-		MenuGroupRequest request = new MenuGroupRequest("한식");
-
-		ExtractableResponse<Response> response = RestAssured
-		        .given().log().all()
-		        .body(request)
-		        .contentType(MediaType.APPLICATION_JSON_VALUE)
-		        .when().post("/api/menu-groups")
-		        .then().log().all().extract();
+		ExtractableResponse<Response> response = 메뉴그룹_생성_요청("한식");
 
 		// then
+		메뉴그룹_생성됨(response);
+	}
+
+	private ExtractableResponse<Response> 메뉴그룹_생성_요청(String name) {
+		MenuGroupRequest request = new MenuGroupRequest(name);
+
+		return RestAssured
+				.given().log().all()
+				.body(request)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when().post("/api/menu-groups")
+				.then().log().all().extract();
+	}
+
+	private void 메뉴그룹_생성됨(ExtractableResponse<Response> response) {
 		Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
 	}
+
 }
