@@ -7,7 +7,6 @@ import kitchenpos.AcceptanceTest;
 import kitchenpos.dto.MenuGroupRequest;
 import kitchenpos.dto.MenuGroupResponse;
 import kitchenpos.dto.MenuGroupsResponse;
-import kitchenpos.dto.ProductsResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,8 @@ import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("메뉴 그룹 인수테스트")
 public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
+
+	public static final String MENU_GROUPS_BASE_URL = "/api/menu-groups";
 
 	@Test
 	void createMenuGroup() {
@@ -50,10 +51,9 @@ public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
 	private ExtractableResponse<Response> 메뉴그룹_쌩성_요청() {
 		return RestAssured
 					.given().log().all()
-					.when().get("/api/menu-groups")
+					.when().get(MENU_GROUPS_BASE_URL)
 					.then().log().all().extract();
 	}
-
 
 	private ExtractableResponse<Response> 메뉴그룹_생성_요청(String name) {
 		MenuGroupRequest request = new MenuGroupRequest(name);
@@ -62,7 +62,7 @@ public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
 				.given().log().all()
 				.body(request)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.when().post("/api/menu-groups")
+				.when().post(MENU_GROUPS_BASE_URL)
 				.then().log().all().extract();
 	}
 
