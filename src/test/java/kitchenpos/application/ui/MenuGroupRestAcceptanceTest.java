@@ -34,10 +34,10 @@ public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
 	@Test
 	void listMenuGroup() {
 		// given
-		메뉴그룹_생성_요청("한식");
+		메뉴그룹_생성_됨("한식");
 
 		// when
-		ExtractableResponse<Response> response = 메뉴그룹_쌩성_요청();
+		ExtractableResponse<Response> response = 메뉴그룹_조회_요청();
 
 		// then
 		메뉴그룹이_조회됨(response);
@@ -48,14 +48,20 @@ public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
 		Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 	}
 
-	private ExtractableResponse<Response> 메뉴그룹_쌩성_요청() {
+	public static ExtractableResponse<Response> 메뉴그룹_조회_요청() {
 		return RestAssured
 					.given().log().all()
 					.when().get(MENU_GROUPS_BASE_URL)
 					.then().log().all().extract();
 	}
 
-	private ExtractableResponse<Response> 메뉴그룹_생성_요청(String name) {
+	public static Long 메뉴그룹_생성_됨(String name) {
+		ExtractableResponse<Response> response = 메뉴그룹_생성_요청(name);
+
+		return response.body().as(MenuGroupResponse.class).getId();
+	}
+
+	public static ExtractableResponse<Response> 메뉴그룹_생성_요청(String name) {
 		MenuGroupRequest request = new MenuGroupRequest(name);
 
 		return RestAssured
