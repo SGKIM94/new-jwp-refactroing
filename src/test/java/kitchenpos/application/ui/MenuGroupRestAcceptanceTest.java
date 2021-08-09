@@ -41,7 +41,7 @@ public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
 
 		// then
 		메뉴그룹이_조회됨(response);
-		메뉵그룹에_값들이_쫀재함(response);
+		메뉴그룹에_값들이_존재함(response);
 	}
 
 	private void 메뉴그룹이_조회됨(ExtractableResponse<Response> response) {
@@ -76,7 +76,7 @@ public class MenuGroupRestAcceptanceTest extends AcceptanceTest {
 		Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
 	}
 
-	private void 메뉵그룹에_값들이_쫀재함(ExtractableResponse<Response> response) {
+	private void 메뉴그룹에_값들이_존재함(ExtractableResponse<Response> response) {
 		List<MenuGroupResponse> menuGroups = response.body().as(MenuGroupsResponse.class).getMenuGroups();
 		menuGroups.forEach(product -> assertThat(product.getId()).isNotNull());
 	}
