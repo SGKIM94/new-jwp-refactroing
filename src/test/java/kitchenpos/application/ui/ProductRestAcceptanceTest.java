@@ -46,7 +46,7 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 		품목에_값들이_쫀재함(response);
 	}
 
-	private ExtractableResponse<Response> 품목_조회를_요청한다() {
+	static ExtractableResponse<Response> 품목_조회를_요청한다() {
 		return RestAssured
 					.given().log().all()
 					.contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -54,7 +54,18 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 					.then().log().all().extract();
 	}
 
-	private ExtractableResponse<Response> 품목_생성을_요청한다(String name, int price) {
+	public static Long 품목_생성됨(String name, int price) {
+		ExtractableResponse<Response> response = RestAssured
+				.given().log().all()
+				.body(new ProductRequest(name, BigDecimal.valueOf(price)))
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.when().post(PRODUCT_API_BASE_URL)
+				.then().log().all().extract();
+
+		return response.body().as(ProductResponse.class).getId();
+	}
+
+	private static ExtractableResponse<Response> 품목_생성을_요청한다(String name, int price) {
 		return RestAssured
 					.given().log().all()
 					.body(new ProductRequest(name, BigDecimal.valueOf(price)))
