@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import kitchenpos.AcceptanceTest;
+import kitchenpos.menu.domain.Price;
 import kitchenpos.menu.dto.MenuRequest;
 import kitchenpos.menu.dto.MenuResponse;
 import kitchenpos.menu.dto.MenusResponse;
@@ -29,7 +30,7 @@ public class MenuRestAcceptanceTest extends AcceptanceTest {
 		//given
 		품목_생성됨("감자", 2000);
 		Long menuGroupId = 메뉴그룹_생성_됨("한식");
-		MenuRequest params = new MenuRequest("찜닭", BigDecimal.valueOf(2000), menuGroupId);
+		MenuRequest params = new MenuRequest("찜닭", new Price(2000), menuGroupId);
 
 		// when
 		ExtractableResponse<Response> response = 메뉴_생성_요청(params);
@@ -43,7 +44,7 @@ public class MenuRestAcceptanceTest extends AcceptanceTest {
 		//given
 		품목_생성됨("감자", 2000);
 		Long menuGroupId = 메뉴그룹_생성_됨("한식");
-		MenuRequest params = new MenuRequest("찜닭", BigDecimal.valueOf(2000), menuGroupId);
+		MenuRequest params = new MenuRequest("찜닭", new Price(2000), menuGroupId);
 		메뉴_생성_됨(params);
 
 		//when
