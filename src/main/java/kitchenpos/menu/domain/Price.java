@@ -22,4 +22,10 @@ public class Price {
 			throw new IllegalArgumentException("가격은 0보다 작을 수 없습니다. : " + price);
 		}
 	}
+
+	public void validateSum(BigDecimal sum) {
+		if (price.compareTo(sum) > 0) {
+			throw new IllegalArgumentException();
+		}
+	}
 }
