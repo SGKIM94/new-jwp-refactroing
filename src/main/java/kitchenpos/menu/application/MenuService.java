@@ -3,9 +3,13 @@ package kitchenpos.menu.application;
 import kitchenpos.menu.dao.MenuDao;
 import kitchenpos.menu.dao.MenuGroupDao;
 import kitchenpos.menu.dao.MenuProductDao;
-import kitchenpos.product.dao.ProductDao;
 import kitchenpos.menu.domain.Menu;
+import kitchenpos.menu.domain.MenuGroup;
 import kitchenpos.menu.domain.MenuProduct;
+import kitchenpos.menu.domain.Price;
+import kitchenpos.menu.dto.MenuRequest;
+import kitchenpos.menu.dto.MenuResponse;
+import kitchenpos.product.dao.ProductDao;
 import kitchenpos.product.domain.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuService {
@@ -35,38 +40,35 @@ public class MenuService {
     }
 
     @Transactional
-    public Menu create(final Menu menu) {
-        final BigDecimal price = menu.getPrice();
+    public MenuResponse create(final MenuRequest menu) {
+        final Price price = menu.getPrice();
 
-        validatePrice(price);
+        price.validatePrice();
 
         checkMenuGroupsExist(menu);
 
-        final List<MenuProduct> menuProducts = menu.getMenuProducts();
+        List<MenuProduct> menuProducts = menu.getMenuProductsId().stream()
+                .map(menuProductDao::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
 
+        Optional<MenuGroup> menuGroup = menuGroupDao.findById(menu.getMenuGroupId());
         BigDecimal sum = sumProductPriceByQuantity(menuProducts);
 
-        validateSum(price, sum);
+        price.validateSum(sum);
 
-        final Menu savedMenu = menuDao.save(menu);
+        final Menu savedMenu = menuDao.save(menu.toEntity(menuGroup.get(), menuProducts));
 
         saveMenuProducts(menuProducts, savedMenu);
 
-        return savedMenu;
-    }
-
-    private void validateSum(BigDecimal price, BigDecimal sum) {
-        if (price.compareTo(sum) > 0) {
-            throw new IllegalArgumentException();
-        }
+        return MenuResponse.of(savedMenu);
     }
 
     private void saveMenuProducts(List<MenuProduct> menuProducts, Menu savedMenu) {
-        final Long menuId = savedMenu.getId();
         final List<MenuProduct> savedMenuProducts = new ArrayList<>();
 
         for (final MenuProduct menuProduct : menuProducts) {
-            menuProduct.setMenuId(menuId);
             savedMenuProducts.add(menuProductDao.save(menuProduct));
         }
 
@@ -75,22 +77,17 @@ public class MenuService {
 
     private BigDecimal sumProductPriceByQuantity(List<MenuProduct> menuProducts) {
         BigDecimal sum = BigDecimal.ZERO;
+
         for (final MenuProduct menuProduct : menuProducts) {
-            final Product product = productDao.findById(menuProduct.getProductId())
-                    .orElseThrow(IllegalArgumentException::new);
+            Product product = menuProduct.getProduct();
             sum = sum.add(product.getPrice().multiply(BigDecimal.valueOf(menuProduct.getQuantity())));
         }
+
         return sum;
     }
 
-    private void checkMenuGroupsExist(Menu menu) {
+    private void checkMenuGroupsExist(MenuRequest menu) {
         if (!menuGroupDao.existsById(menu.getMenuGroupId())) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void validatePrice(BigDecimal price) {
-        if (Objects.isNull(price) || price.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException();
         }
     }
