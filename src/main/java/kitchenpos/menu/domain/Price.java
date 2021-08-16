@@ -28,4 +28,8 @@ public class Price {
 			throw new IllegalArgumentException();
 		}
 	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
 }
