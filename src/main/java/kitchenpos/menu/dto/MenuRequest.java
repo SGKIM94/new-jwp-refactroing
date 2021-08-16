@@ -1,5 +1,8 @@
 package kitchenpos.menu.dto;
 
+import kitchenpos.menu.domain.Menu;
+import kitchenpos.menu.domain.MenuGroup;
+import kitchenpos.menu.domain.MenuProduct;
 import kitchenpos.menu.domain.Price;
 
 import java.util.List;
@@ -8,7 +11,7 @@ public class MenuRequest {
 	private String name;
 	private Price price;
 	private Long menuGroupId;
-	private List<Long> MenuProductsId;
+ 	private List<Long> menuProductsId;
 
 	public MenuRequest(String name, Price price, Long menuGroupId) {
 		this.name = name;
@@ -20,7 +23,7 @@ public class MenuRequest {
 		this.name = name;
 		this.price = price;
 		this.menuGroupId = menuGroupId;
-		MenuProductsId = menuProductsId;
+		this.menuProductsId = menuProductsId;
 	}
 
 	public String getName() {
@@ -36,6 +39,10 @@ public class MenuRequest {
 	}
 
 	public List<Long> getMenuProductsId() {
-		return MenuProductsId;
+		return menuProductsId;
+	}
+
+	public Menu toEntity(MenuGroup menuGroup, List<MenuProduct> menuProducts) {
+		return new Menu(name, price, menuGroup, menuProducts);
 	}
 }
