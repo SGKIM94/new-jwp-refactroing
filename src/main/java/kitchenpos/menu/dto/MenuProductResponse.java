@@ -21,19 +21,11 @@ public class MenuProductResponse {
 				ProductResponse.of(menuProduct.getProduct()), menuProduct.getQuantity());
 	}
 
-	public Long getSeq() {
-		return seq;
-	}
-
 	public MenuResponse getMenu() {
 		return menu;
 	}
 
 	public ProductResponse getProduct() {
 		return product;
-	}
-
-	public long getQuantity() {
-		return quantity;
 	}
 }
