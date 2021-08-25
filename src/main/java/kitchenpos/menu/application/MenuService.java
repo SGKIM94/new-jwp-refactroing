@@ -47,11 +47,7 @@ public class MenuService {
 
         checkMenuGroupsExist(menu);
 
-        List<MenuProduct> menuProducts = menu.getMenuProductsId().stream()
-                .map(menuProductDao::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toList());
+        List<MenuProduct> menuProducts = findAllMenuProducts(menu);
 
         Optional<MenuGroup> menuGroup = menuGroupDao.findById(menu.getMenuGroupId());
         BigDecimal sum = sumProductPriceByQuantity(menuProducts);
@@ -63,6 +59,14 @@ public class MenuService {
         saveMenuProducts(menuProducts, savedMenu);
 
         return MenuResponse.of(savedMenu);
+    }
+
+    private List<MenuProduct> findAllMenuProducts(MenuRequest menu) {
+        return menu.getMenuProductsId().stream()
+                .map(menuProductDao::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     private void saveMenuProducts(List<MenuProduct> menuProducts, Menu savedMenu) {
