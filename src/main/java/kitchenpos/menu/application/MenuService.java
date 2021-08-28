@@ -6,6 +6,7 @@ import kitchenpos.menu.dao.MenuProductDao;
 import kitchenpos.menu.domain.Menu;
 import kitchenpos.menu.domain.MenuGroup;
 import kitchenpos.menu.domain.MenuProduct;
+import kitchenpos.menu.domain.MenuProducts;
 import kitchenpos.menu.domain.Price;
 import kitchenpos.menu.dto.MenuRequest;
 import kitchenpos.menu.dto.MenuResponse;
@@ -45,10 +46,11 @@ public class MenuService {
 
         checkMenuGroupsExist(menu);
 
-        List<MenuProduct> menuProducts = findAllMenuProducts(menu);
+        MenuProducts menuProducts = new MenuProducts(findAllMenuProducts(menu));
 
         Optional<MenuGroup> menuGroup = menuGroupDao.findById(menu.getMenuGroupId());
-        BigDecimal sum = sumProductPriceByQuantity(menuProducts);
+
+        BigDecimal sum = menuProducts.sumProductPriceByQuantity();
 
         price.validateSum(sum);
 
@@ -67,10 +69,10 @@ public class MenuService {
                 .collect(Collectors.toList());
     }
 
-    private void saveMenuProducts(List<MenuProduct> menuProducts, Menu savedMenu) {
+    private void saveMenuProducts(MenuProducts menuProducts, Menu savedMenu) {
         final List<MenuProduct> savedMenuProducts = new ArrayList<>();
 
-        for (final MenuProduct menuProduct : menuProducts) {
+        for (final MenuProduct menuProduct : menuProducts.getMenuProducts()) {
             savedMenuProducts.add(menuProductDao.save(menuProduct));
         }
 
