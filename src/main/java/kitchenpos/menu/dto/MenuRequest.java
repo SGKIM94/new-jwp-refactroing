@@ -2,7 +2,7 @@ package kitchenpos.menu.dto;
 
 import kitchenpos.menu.domain.Menu;
 import kitchenpos.menu.domain.MenuGroup;
-import kitchenpos.menu.domain.MenuProduct;
+import kitchenpos.menu.domain.MenuProducts;
 import kitchenpos.menu.domain.Price;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class MenuRequest {
 		return menuProductsId;
 	}
 
-	public Menu toEntity(MenuGroup menuGroup, List<MenuProduct> menuProducts) {
-		return new Menu(name, price, menuGroup, menuProducts);
+	public Menu toEntity(MenuGroup menuGroup, MenuProducts menuProducts) {
+		return new Menu(name, price, menuGroup, menuProducts.getMenuProducts());
 	}
 }
