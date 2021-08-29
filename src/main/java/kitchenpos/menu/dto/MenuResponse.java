@@ -1,28 +1,26 @@
 package kitchenpos.menu.dto;
 
 import kitchenpos.menu.domain.Menu;
-
-import java.math.BigDecimal;
-import java.util.List;
+import kitchenpos.menu.domain.Price;
 
 public class MenuResponse {
 	private Long id;
 	private String name;
-	private BigDecimal price;
-	private Long menuGroupId;
-	private List<MenuProductResponse> menuProducts;
+	private Price price;
+	private MenuGroupResponse menuGroup;
+	private MenuProductsResponse menuProducts;
 
-	public MenuResponse(Long id, String name, BigDecimal price, Long menuGroupId, List<MenuProductResponse> menuProducts) {
+	public MenuResponse(Long id, String name, Price price, MenuGroupResponse menuGroup, MenuProductsResponse menuProducts) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
-		this.menuGroupId = menuGroupId;
+		this.menuGroup = menuGroup;
 		this.menuProducts = menuProducts;
 	}
 
 	public static MenuResponse of(Menu savedMenu) {
 		return new MenuResponse(savedMenu.getId(), savedMenu.getName(), savedMenu.getPrice(),
-				savedMenu.getMenuGroup(), MenuProductResponse.of(savedMenu.getMenuProducts()));
+				MenuGroupResponse.of(savedMenu.getMenuGroup()), MenuProductsResponse.of(savedMenu.getMenuProducts()));
 	}
 
 	public Long getId() {
@@ -33,15 +31,15 @@ public class MenuResponse {
 		return name;
 	}
 
-	public BigDecimal getPrice() {
+	public Price getPrice() {
 		return price;
 	}
 
-	public Long getMenuGroupId() {
-		return menuGroupId;
+	public MenuGroupResponse getMenuGroup() {
+		return menuGroup;
 	}
 
-	public List<MenuProductResponse> getMenuProducts() {
+	public MenuProductsResponse getMenuProducts() {
 		return menuProducts;
 	}
 }
