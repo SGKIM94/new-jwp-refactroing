@@ -24,6 +24,10 @@ public class Product {
         this.id = id;
     }
 
+    public Price multiply(Price sum, long quantity) {
+        return sum.add(price.multiply(quantity));
+    }
+
     public Long getId() {
         return id;
     }
