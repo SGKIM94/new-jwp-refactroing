@@ -43,6 +43,6 @@ public class MenuRequest {
 	}
 
 	public Menu toEntity(MenuGroup menuGroup, MenuProducts menuProducts) {
-		return new Menu(name, price, menuGroup, menuProducts.getMenuProducts());
+		return new Menu(name, price, menuGroup, menuProducts);
 	}
 }
