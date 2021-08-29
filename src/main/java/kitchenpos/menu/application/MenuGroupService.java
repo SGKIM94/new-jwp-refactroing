@@ -4,6 +4,7 @@ import kitchenpos.menu.dao.MenuGroupDao;
 import kitchenpos.menu.domain.MenuGroup;
 import kitchenpos.menu.dto.MenuGroupResponse;
 import kitchenpos.menu.dto.MenuGroupsResponse;
+import kitchenpos.menu.dto.MenuRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,5 +23,17 @@ public class MenuGroupService {
 
     public MenuGroupsResponse list() {
         return MenuGroupsResponse.of(menuGroupDao.findAll());
+    }
+
+    public MenuGroup findById(long id) {
+        return menuGroupDao.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 메뉴그룹입니다. : " + id)
+        );
+    }
+
+    public void checkMenuGroupsExist(MenuRequest menu) {
+        if (!menuGroupDao.existsById(menu.getMenuGroupId())) {
+            throw new IllegalArgumentException();
+        }
     }
 }
