@@ -1,7 +1,6 @@
 package kitchenpos.menu.application;
 
 import kitchenpos.menu.dao.MenuDao;
-import kitchenpos.menu.dao.MenuGroupDao;
 import kitchenpos.menu.dao.MenuProductDao;
 import kitchenpos.menu.domain.Menu;
 import kitchenpos.menu.domain.MenuGroup;
@@ -13,7 +12,6 @@ import kitchenpos.menu.dto.MenuResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,10 +45,6 @@ public class MenuService {
 
         MenuGroup menuGroup = menuGroupService.findById(menu.getMenuGroupId());
 
-        BigDecimal sum = menuProducts.sumProductPriceByQuantity();
-
-        price.validateSum(sum);
-
         final Menu savedMenu = menuDao.save(menu.toEntity(menuGroup, menuProducts));
 
         saveMenuProducts(menuProducts, savedMenu);
@@ -75,14 +69,14 @@ public class MenuService {
             savedMenuProducts.add(menuProductDao.save(menuProduct));
         }
 
-        savedMenu.setMenuProducts(savedMenuProducts);
+        savedMenu.setMenuProducts(new MenuProducts(savedMenuProducts));
     }
 
     public List<Menu> list() {
         final List<Menu> menus = menuDao.findAll();
 
         for (final Menu menu : menus) {
-            menu.setMenuProducts(menuProductDao.findAllByMenuId(menu.getId()));
+            menu.setMenuProducts(new MenuProducts(menuProductDao.findAllByMenuId(menu.getId())));
         }
 
         return menus;

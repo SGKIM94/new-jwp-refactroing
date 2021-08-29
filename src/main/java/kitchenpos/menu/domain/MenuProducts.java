@@ -15,17 +15,6 @@ public class MenuProducts {
 		this.menuProducts = menuProducts;
 	}
 
-	public Price sumProductPriceByQuantity() {
-		Price sum = Price.ZERO;
-
-		for (final MenuProduct menuProduct : menuProducts) {
-			Product product = menuProduct.getProduct();
-			sum = product.multiply(sum, menuProduct.getQuantity());
-		}
-
-		return sum;
-	}
-
 	public List<MenuProduct> getMenuProducts() {
 		return menuProducts;
 	}
