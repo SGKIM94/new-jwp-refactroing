@@ -11,11 +11,19 @@ public class MenuProduct {
     public MenuProduct() {
     }
 
-    public MenuProduct(Long seq, Menu menu, Product product, long quantity) {
-        this.seq = seq;
-        this.menu = menu;
+    public MenuProduct(Product product, long quantity) {
         this.product = product;
         this.quantity = quantity;
+    }
+
+    public MenuProduct(Menu menu, Product product, long quantity) {
+        this(product, quantity);
+        this.menu = menu;
+    }
+
+    public MenuProduct(Long seq, Menu menu, Product product, long quantity) {
+        this(menu, product, quantity);
+        this.seq = seq;
     }
 
     public Long getSeq() {
