@@ -4,7 +4,6 @@ import kitchenpos.product.domain.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -18,8 +17,8 @@ class MenuProductsTest {
 		MenuProduct 고구마깡 = new MenuProduct(new Product("고구마깡", new Price(1500)), 2L);
 		MenuProducts menuProducts = new MenuProducts(List.of(새우깡, 고구마깡));
 
-		BigDecimal sum = menuProducts.sumProductPriceByQuantity();
+		Price sum = menuProducts.sumProductPriceByQuantity();
 
-		assertThat(sum.intValue()).isEqualTo(9000);
+		assertThat(sum).isEqualTo(new Price(9000));
 	}
 }
