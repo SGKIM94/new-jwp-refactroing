@@ -15,12 +15,12 @@ public class MenuProducts {
 		this.menuProducts = menuProducts;
 	}
 
-	public BigDecimal sumProductPriceByQuantity() {
-		BigDecimal sum = BigDecimal.ZERO;
+	public Price sumProductPriceByQuantity() {
+		Price sum = Price.ZERO;
 
 		for (final MenuProduct menuProduct : menuProducts) {
 			Product product = menuProduct.getProduct();
-			sum = sum.add(product.getPrice().multiply(menuProduct.getQuantity()));
+			sum = product.multiply(sum, menuProduct.getQuantity());
 		}
 
 		return sum;
