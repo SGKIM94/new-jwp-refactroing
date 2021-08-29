@@ -20,7 +20,7 @@ public class MenuProducts {
 
 		for (final MenuProduct menuProduct : menuProducts) {
 			Product product = menuProduct.getProduct();
-			sum = sum.add(product.getPrice().multiply(BigDecimal.valueOf(menuProduct.getQuantity())));
+			sum = sum.add(product.getPrice().multiply(menuProduct.getQuantity()));
 		}
 
 		return sum;
