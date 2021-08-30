@@ -1,17 +1,16 @@
 package kitchenpos.product.dto;
 
+import kitchenpos.menu.domain.Price;
 import kitchenpos.product.domain.Product;
-
-import java.math.BigDecimal;
 
 public class ProductRequest {
 	private String name;
-	private BigDecimal price;
+	private Price price;
 
 	public ProductRequest() {
 	}
 
-	public ProductRequest(String name, BigDecimal price) {
+	public ProductRequest(String name, Price price) {
 		this.name = name;
 		this.price = price;
 	}
@@ -24,7 +23,7 @@ public class ProductRequest {
 		return name;
 	}
 
-	public BigDecimal getPrice() {
+	public Price getPrice() {
 		return price;
 	}
 }
