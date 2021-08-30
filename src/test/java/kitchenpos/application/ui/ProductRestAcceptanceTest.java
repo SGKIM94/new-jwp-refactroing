@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import kitchenpos.AcceptanceTest;
+import kitchenpos.menu.domain.Price;
 import kitchenpos.product.dto.ProductRequest;
 import kitchenpos.product.dto.ProductResponse;
 import kitchenpos.product.dto.ProductsResponse;
@@ -57,7 +58,7 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 	public static Long 품목_생성됨(String name, int price) {
 		ExtractableResponse<Response> response = RestAssured
 				.given().log().all()
-				.body(new ProductRequest(name, BigDecimal.valueOf(price)))
+				.body(new ProductRequest(name, new Price(price)))
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.when().post(PRODUCT_API_BASE_URL)
 				.then().log().all().extract();
@@ -68,7 +69,7 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 	private static ExtractableResponse<Response> 품목_생성을_요청한다(String name, int price) {
 		return RestAssured
 					.given().log().all()
-					.body(new ProductRequest(name, BigDecimal.valueOf(price)))
+					.body(new ProductRequest(name, new Price(price)))
 					.contentType(MediaType.APPLICATION_JSON_VALUE)
 					.when().post(PRODUCT_API_BASE_URL)
 					.then().log().all().extract();
