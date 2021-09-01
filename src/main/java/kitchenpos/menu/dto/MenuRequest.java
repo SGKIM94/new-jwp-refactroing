@@ -19,13 +19,6 @@ public class MenuRequest {
 		this.menuGroupId = menuGroupId;
 	}
 
-	public MenuRequest(String name, Price price, Long menuGroupId, List<Long> menuProductsId) {
-		this.name = name;
-		this.price = price;
-		this.menuGroupId = menuGroupId;
-		this.menuProductsId = menuProductsId;
-	}
-
 	public String getName() {
 		return name;
 	}
