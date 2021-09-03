@@ -39,14 +39,18 @@ public class TableService {
 
         validateTableGroupId(savedOrderTable);
 
-        if (orderDao.existsByOrderTableIdAndOrderStatusIn(
-                orderTableId, Arrays.asList(OrderStatus.COOKING.name(), OrderStatus.MEAL.name()))) {
-            throw new IllegalArgumentException();
-        }
+        validateExistsByOrderTableAndOrderStatusIn(orderTableId);
 
         savedOrderTable.setEmpty(orderTable.isEmpty());
 
         return orderTableDao.save(savedOrderTable);
+    }
+
+    private void validateExistsByOrderTableAndOrderStatusIn(Long orderTableId) {
+        if (orderDao.existsByOrderTableIdAndOrderStatusIn(
+                orderTableId, Arrays.asList(OrderStatus.COOKING.name(), OrderStatus.MEAL.name()))) {
+            throw new IllegalArgumentException();
+        }
     }
 
     private void validateTableGroupId(OrderTable savedOrderTable) {
