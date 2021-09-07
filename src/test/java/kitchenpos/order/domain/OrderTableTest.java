@@ -10,7 +10,7 @@ class OrderTableTest {
 	@DisplayName("table groupd id가 있는 경우 예외처리한다.")
 	@Test
 	void validateTableGroupId_test() {
-		OrderTable orderTable = new OrderTable(2L, 3, false);
+		OrderTable orderTable = new OrderTable(new TableGroup(), 3, false);
 
 		assertThrows(IllegalArgumentException.class,
 				orderTable::validateTableGroupId
