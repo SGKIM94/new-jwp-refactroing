@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 
 public class Product {
     private Long id;
-    private String name;
-    private Price price;
+    private final String name;
+    private final Price price;
 
     public Product(String name, Price price) {
         this.name = name;
