@@ -17,6 +17,11 @@ public class OrderTable {
         this.empty = empty;
     }
 
+    public OrderTable(TableGroup tableGroup) {
+        this.tableGroup = tableGroup;
+        this.empty = false;
+    }
+
     public void validateTableGroupId() {
         if (Objects.nonNull(tableGroup)) {
             throw new IllegalArgumentException();
