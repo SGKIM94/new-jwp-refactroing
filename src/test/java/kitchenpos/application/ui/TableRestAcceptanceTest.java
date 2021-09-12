@@ -6,6 +6,8 @@ import io.restassured.response.Response;
 import kitchenpos.AcceptanceTest;
 import kitchenpos.order.domain.OrderTable;
 import kitchenpos.order.dto.OrderTableRequest;
+import kitchenpos.order.dto.OrderTableResponse;
+import kitchenpos.order.dto.OrderTablesResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -46,9 +49,26 @@ public class TableRestAcceptanceTest extends AcceptanceTest {
 				.then().log().all().extract();
 
 		// then
+		테이블이_조회됨(response);
+		생성된_테이블이_포함됨(tableId, response);
+	}
+
+	private void 생성된_테이블이_포함됨(Long tableId, ExtractableResponse<Response> response) {
+		List<Long> ids = extractListIds(response);
+		assertThat(ids).contains(
+				tableId
+		);
+	}
+
+	private List<Long> extractListIds(ExtractableResponse<Response> response) {
+		OrderTablesResponse orderTables = response.body().as(OrderTablesResponse.class);
+		return orderTables.getOrderTables().stream()
+				.map(OrderTableResponse::getId)
+				.collect(Collectors.toList());
+	}
+
+	private void 테이블이_조회됨(ExtractableResponse<Response> response) {
 		assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-		List<OrderTable> orderTables = response.body().jsonPath().getList("$orderTables");
-		orderTables.forEach(product -> assertThat(product.getId()).isNotNull());
 	}
 
 	private Long 빈_테이블_생생됨() {

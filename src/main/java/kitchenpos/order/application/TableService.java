@@ -6,6 +6,7 @@ import kitchenpos.order.domain.OrderStatus;
 import kitchenpos.order.domain.OrderTable;
 import kitchenpos.order.dto.OrderTableResponse;
 import kitchenpos.order.dto.OrderTableRequest;
+import kitchenpos.order.dto.OrderTablesResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +28,8 @@ public class TableService {
         return OrderTableResponse.of(orderTableDao.save(orderTable.toEmptyTable()));
     }
 
-    public List<OrderTable> list() {
-        return orderTableDao.findAll();
+    public OrderTablesResponse list() {
+        return OrderTablesResponse.of(orderTableDao.findAll());
     }
 
     @Transactional

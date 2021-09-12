@@ -4,6 +4,7 @@ import kitchenpos.order.application.TableService;
 import kitchenpos.order.domain.OrderTable;
 import kitchenpos.order.dto.OrderTableResponse;
 import kitchenpos.order.dto.OrderTableRequest;
+import kitchenpos.order.dto.OrderTablesResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class TableRestController {
     }
 
     @GetMapping("/api/tables")
-    public ResponseEntity<List<OrderTable>> list() {
+    public ResponseEntity<OrderTablesResponse> list() {
         return ResponseEntity.ok()
                 .body(tableService.list())
                 ;
