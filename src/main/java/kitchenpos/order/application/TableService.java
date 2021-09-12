@@ -4,12 +4,13 @@ import kitchenpos.order.dao.OrderDao;
 import kitchenpos.order.dao.OrderTableDao;
 import kitchenpos.order.domain.OrderStatus;
 import kitchenpos.order.domain.OrderTable;
+import kitchenpos.order.dto.OrderTableResponse;
+import kitchenpos.order.dto.OrderTableRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TableService {
@@ -22,10 +23,8 @@ public class TableService {
     }
 
     @Transactional
-    public OrderTable create(final OrderTable orderTable) {
-        orderTable.setTableGroupId(null);
-
-        return orderTableDao.save(orderTable);
+    public OrderTableResponse create(final OrderTableRequest orderTable) {
+        return OrderTableResponse.of(orderTableDao.save(orderTable.toEmptyTable()));
     }
 
     public List<OrderTable> list() {

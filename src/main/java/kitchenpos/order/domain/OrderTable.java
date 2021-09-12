@@ -22,6 +22,10 @@ public class OrderTable {
         this.empty = false;
     }
 
+    public static OrderTable emptyTable() {
+        return new OrderTable(null, 0, true);
+    }
+
     public void validateTableGroupId() {
         if (Objects.nonNull(tableGroup)) {
             throw new IllegalArgumentException();
@@ -54,5 +58,9 @@ public class OrderTable {
 
     public void setEmpty(final boolean empty) {
         this.empty = empty;
+    }
+
+    public void setTableGroup(TableGroup tableGroup) {
+        this.tableGroup = tableGroup;
     }
 }
