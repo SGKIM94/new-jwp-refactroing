@@ -38,8 +38,4 @@ public class MenuResponse {
 	public MenuGroupResponse getMenuGroup() {
 		return menuGroup;
 	}
-
-	public MenuProductsResponse getMenuProducts() {
-		return menuProducts;
-	}
 }
