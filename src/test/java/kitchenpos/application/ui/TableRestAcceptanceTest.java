@@ -43,14 +43,18 @@ public class TableRestAcceptanceTest extends AcceptanceTest {
 		Long tableId = 빈_테이블_생생됨();
 
 		// when
-		ExtractableResponse<Response> response = RestAssured
-				.given().log().all()
-				.when().get(TABLE_BASE_URL)
-				.then().log().all().extract();
+		ExtractableResponse<Response> response = 테이블들을_조회_요청();
 
 		// then
 		테이블이_조회됨(response);
 		생성된_테이블이_포함됨(tableId, response);
+	}
+
+	private ExtractableResponse<Response> 테이블들을_조회_요청() {
+		return RestAssured
+					.given().log().all()
+					.when().get(TABLE_BASE_URL)
+					.then().log().all().extract();
 	}
 
 	private void 생성된_테이블이_포함됨(Long tableId, ExtractableResponse<Response> response) {
