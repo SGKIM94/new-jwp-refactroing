@@ -51,7 +51,7 @@ public class JdbcTemplateMenuDao implements MenuDao {
 
     @Override
     public List<Menu> findAll() {
-        final String sql = "SELECT id, name, price, menu_group_id FROM menu ";
+        final String sql = "SELECT id, name, price, menu_group_id, menu_product_id FROM menu ";
         return jdbcTemplate.query(sql, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 
