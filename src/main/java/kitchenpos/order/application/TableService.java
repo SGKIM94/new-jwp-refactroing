@@ -64,12 +64,16 @@ public class TableService {
         final OrderTable savedOrderTable = orderTableDao.findById(orderTableId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        if (savedOrderTable.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+        checkSavedOrderTableEmpty(savedOrderTable);
 
         savedOrderTable.setNumberOfGuests(numberOfGuests);
 
         return orderTableDao.save(savedOrderTable);
+    }
+
+    private void checkSavedOrderTableEmpty(OrderTable savedOrderTable) {
+        if (savedOrderTable.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
     }
 }
