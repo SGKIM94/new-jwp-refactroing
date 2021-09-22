@@ -105,4 +105,9 @@ public class OrderService {
 
         return savedOrder;
     }
+
+    public OrderTable findOrderTableById(long orderTableId) {
+        return orderTableDao.findById(orderTableId)
+                .orElseThrow(IllegalArgumentException::new);
+    }
 }
