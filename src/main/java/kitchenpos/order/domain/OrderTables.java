@@ -24,4 +24,14 @@ public class OrderTables {
 				.map(OrderTable::getId)
 				.collect(Collectors.toList());
 	}
+
+	public void checkSizeWithSaved(List<OrderTable> savedOrderTables) {
+		if (orderTables.size() != savedOrderTables.size()) {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	public List<OrderTable> getOrderTables() {
+		return orderTables;
+	}
 }
