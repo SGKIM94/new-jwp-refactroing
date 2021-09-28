@@ -5,6 +5,7 @@ import kitchenpos.order.dao.OrderTableDao;
 import kitchenpos.order.dao.TableGroupDao;
 import kitchenpos.order.domain.OrderStatus;
 import kitchenpos.order.domain.OrderTable;
+import kitchenpos.order.domain.OrderTables;
 import kitchenpos.order.domain.TableGroup;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,19 +31,13 @@ public class TableGroupService {
 
     @Transactional
     public TableGroup create(final TableGroup tableGroup) {
-        final List<OrderTable> orderTables = tableGroup.getOrderTables();
+        OrderTables orderTables = new OrderTables(tableGroup.getOrderTables());
 
-        if (CollectionUtils.isEmpty(orderTables) || orderTables.size() < 2) {
-            throw new IllegalArgumentException();
-        }
-
-        final List<Long> orderTableIds = extractOrderTableIds(orderTables);
+        final List<Long> orderTableIds = orderTables.extractOrderTableIds();
 
         final List<OrderTable> savedOrderTables = orderTableDao.findAllByIdIn(orderTableIds);
 
-        if (orderTables.size() != savedOrderTables.size()) {
-            throw new IllegalArgumentException();
-        }
+        orderTables.checkSizeWithSaved(savedOrderTables);
 
         for (final OrderTable savedOrderTable : savedOrderTables) {
             if (!savedOrderTable.isEmpty() || Objects.nonNull(savedOrderTable.getTableGroup())) {
@@ -63,24 +58,18 @@ public class TableGroupService {
         return savedTableGroup;
     }
 
-    private List<Long> extractOrderTableIds(List<OrderTable> orderTables) {
-        return orderTables.stream()
-                .map(OrderTable::getId)
-                .collect(Collectors.toList());
-    }
-
     @Transactional
     public void ungroup(final Long tableGroupId) {
-        final List<OrderTable> orderTables = orderTableDao.findAllByTableGroupId(tableGroupId);
+        OrderTables orderTables = new OrderTables(orderTableDao.findAllByTableGroupId(tableGroupId));
 
-        final List<Long> orderTableIds = extractOrderTableIds(orderTables);
+        final List<Long> orderTableIds = orderTables.extractOrderTableIds();
 
         if (orderDao.existsByOrderTableIdInAndOrderStatusIn(
                 orderTableIds, Arrays.asList(OrderStatus.COOKING.name(), OrderStatus.MEAL.name()))) {
             throw new IllegalArgumentException();
         }
 
-        for (final OrderTable orderTable : orderTables) {
+        for (final OrderTable orderTable : orderTables.getOrderTables()) {
             orderTableDao.save(new OrderTable(null));
         }
     }
