@@ -45,13 +45,17 @@ public class TableGroupService {
 
         final TableGroup savedTableGroup = tableGroupDao.save(tableGroup);
 
-        for (final OrderTable savedOrderTable : savedOrderTables) {
-            orderTableDao.save(new OrderTable(savedOrderTable.getTableGroup()));
-        }
+        saveOrderTables(savedOrderTables);
 
         savedTableGroup.setOrderTables(savedOrderTables);
 
         return savedTableGroup;
+    }
+
+    private void saveOrderTables(List<OrderTable> savedOrderTables) {
+        for (final OrderTable savedOrderTable : savedOrderTables) {
+            orderTableDao.save(new OrderTable(savedOrderTable.getTableGroup()));
+        }
     }
 
     private void checkTableGroupsExist(List<OrderTable> savedOrderTables) {
