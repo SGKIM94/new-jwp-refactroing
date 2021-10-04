@@ -39,7 +39,7 @@ public class TableGroupService {
 
         orderTables.checkSizeWithSaved(savedOrderTables);
 
-        checkTableGroupsExist(savedOrderTables);
+        orderTables.checkTableGroupsExist();
 
         tableGroup.setCreatedDate(LocalDateTime.now());
 
@@ -55,14 +55,6 @@ public class TableGroupService {
     private void saveOrderTables(List<OrderTable> savedOrderTables) {
         for (final OrderTable savedOrderTable : savedOrderTables) {
             orderTableDao.save(new OrderTable(savedOrderTable.getTableGroup()));
-        }
-    }
-
-    private void checkTableGroupsExist(List<OrderTable> savedOrderTables) {
-        for (final OrderTable savedOrderTable : savedOrderTables) {
-            if (!savedOrderTable.isEmpty() || Objects.nonNull(savedOrderTable.getTableGroup())) {
-                throw new IllegalArgumentException();
-            }
         }
     }
 

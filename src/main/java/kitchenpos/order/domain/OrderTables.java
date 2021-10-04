@@ -3,6 +3,7 @@ package kitchenpos.order.domain;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class OrderTables {
@@ -28,6 +29,14 @@ public class OrderTables {
 	public void checkSizeWithSaved(List<OrderTable> savedOrderTables) {
 		if (orderTables.size() != savedOrderTables.size()) {
 			throw new IllegalArgumentException();
+		}
+	}
+
+	public void checkTableGroupsExist() {
+		for (final OrderTable savedOrderTable : orderTables) {
+			if (!savedOrderTable.isEmpty() || Objects.nonNull(savedOrderTable.getTableGroup())) {
+				throw new IllegalArgumentException();
+			}
 		}
 	}
 

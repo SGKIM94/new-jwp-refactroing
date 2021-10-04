@@ -63,4 +63,8 @@ public class OrderTable {
     public void setTableGroup(TableGroup tableGroup) {
         this.tableGroup = tableGroup;
     }
+
+    public Object getTableGroupId() {
+        return tableGroup.getId();
+    }
 }
