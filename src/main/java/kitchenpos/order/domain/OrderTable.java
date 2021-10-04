@@ -22,6 +22,12 @@ public class OrderTable {
         this.empty = false;
     }
 
+    public OrderTable(Long id, TableGroup tableGroup) {
+        this.id = id;
+        this.tableGroup = tableGroup;
+        this.empty = false;
+    }
+
     public static OrderTable emptyTable() {
         return new OrderTable(null, 0, true);
     }
