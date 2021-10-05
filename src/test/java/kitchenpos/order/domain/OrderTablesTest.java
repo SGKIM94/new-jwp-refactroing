@@ -27,4 +27,13 @@ class OrderTablesTest {
 
 		assertThat(ids).containsExactly(1L, 2L);
 	}
+
+	@Test
+	void 저장된_orderTables_의_사이즈를_체크한다() {
+		OrderTables orderTables = new OrderTables(Arrays.asList(new OrderTable(1L, new TableGroup()), new OrderTable(2L, new TableGroup())));
+
+		assertThrows(IllegalArgumentException.class,
+				() -> orderTables.checkSizeWithSaved(Arrays.asList(new OrderTable(3L, new TableGroup()), new OrderTable(4L, new TableGroup())))
+		);
+	}
 }
