@@ -9,13 +9,10 @@ import kitchenpos.order.domain.OrderTables;
 import kitchenpos.order.domain.TableGroup;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class TableGroupService {
@@ -47,7 +44,7 @@ public class TableGroupService {
 
         saveOrderTables(savedOrderTables);
 
-        savedTableGroup.setOrderTables(savedOrderTables);
+        savedTableGroup.mappingOrderTables(savedOrderTables);
 
         return savedTableGroup;
     }

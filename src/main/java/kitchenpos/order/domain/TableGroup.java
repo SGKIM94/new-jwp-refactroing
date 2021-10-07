@@ -28,7 +28,7 @@ public class TableGroup {
         return orderTables;
     }
 
-    public void setOrderTables(final List<OrderTable> orderTables) {
+    public void mappingOrderTables(final List<OrderTable> orderTables) {
         this.orderTables = orderTables;
     }
 }
