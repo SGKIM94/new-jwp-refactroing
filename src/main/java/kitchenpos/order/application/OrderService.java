@@ -102,9 +102,7 @@ public class OrderService {
         final Order savedOrder = orderDao.findById(orderId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        if (Objects.equals(OrderStatus.COMPLETION.name(), savedOrder.getOrderStatus())) {
-            throw new IllegalArgumentException();
-        }
+        validateCompleteState(savedOrder);
 
         final OrderStatus orderStatus = OrderStatus.valueOf(order.getOrderStatus());
         savedOrder.setOrderStatus(orderStatus.name());
@@ -114,6 +112,12 @@ public class OrderService {
         savedOrder.mappingOrderLineItems(orderLineItemDao.findAllByOrderId(orderId));
 
         return savedOrder;
+    }
+
+    private void validateCompleteState(Order savedOrder) {
+        if (Objects.equals(OrderStatus.COMPLETION.name(), savedOrder.getOrderStatus())) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public OrderTable findOrderTableById(long orderTableId) {
