@@ -43,9 +43,7 @@ public class OrderService {
 
         validateOrderLineTimesEmpty(orderLineItems);
 
-        final List<Long> menuIds = orderLineItems.stream()
-                .map(OrderLineItem::getMenuId)
-                .collect(Collectors.toList());
+        final List<Long> menuIds = extractMenuIdsByOrderLineItems(orderLineItems);
 
         if (orderLineItems.size() != menuDao.countByIdIn(menuIds)) {
             throw new IllegalArgumentException();
@@ -73,6 +71,12 @@ public class OrderService {
         savedOrder.setOrderLineItems(savedOrderLineItems);
 
         return savedOrder;
+    }
+
+    private List<Long> extractMenuIdsByOrderLineItems(List<OrderLineItem> orderLineItems) {
+        return orderLineItems.stream()
+                .map(OrderLineItem::getMenuId)
+                .collect(Collectors.toList());
     }
 
     private void validateOrderLineTimesEmpty(List<OrderLineItem> orderLineItems) {
