@@ -4,17 +4,18 @@ import kitchenpos.order.dao.OrderDao;
 import kitchenpos.order.dao.OrderTableDao;
 import kitchenpos.order.domain.OrderStatus;
 import kitchenpos.order.domain.OrderTable;
-import kitchenpos.order.dto.OrderTableResponse;
 import kitchenpos.order.dto.OrderTableRequest;
+import kitchenpos.order.dto.OrderTableResponse;
 import kitchenpos.order.dto.OrderTablesResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class TableService {
+    public static final int MINIMUM_NUMBER_OF_GUESTS = 0;
+
     private final OrderDao orderDao;
     private final OrderTableDao orderTableDao;
 
@@ -70,7 +71,7 @@ public class TableService {
     }
 
     private void validateNumberOfGuests(int numberOfGuests) {
-        if (numberOfGuests < 0) {
+        if (numberOfGuests < MINIMUM_NUMBER_OF_GUESTS) {
             throw new IllegalArgumentException();
         }
     }
