@@ -21,6 +21,14 @@ public class Order {
         this.orderLineItems = orderLineItems;
     }
 
+    public Order(Order requestOrder, Long orderTableId) {
+        this.id = requestOrder.getId();
+        this.orderTableId = orderTableId;
+        this.orderStatus = OrderStatus.COOKING.name();
+        this.orderedTime = LocalDateTime.now();
+        this.orderLineItems = requestOrder.getOrderLineItems();
+    }
+
     public Long getId() {
         return id;
     }
