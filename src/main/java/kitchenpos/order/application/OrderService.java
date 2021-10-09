@@ -41,9 +41,7 @@ public class OrderService {
     public Order create(final Order order) {
         final List<OrderLineItem> orderLineItems = order.getOrderLineItems();
 
-        if (CollectionUtils.isEmpty(orderLineItems)) {
-            throw new IllegalArgumentException();
-        }
+        validateOrderLineTimesEmpty(orderLineItems);
 
         final List<Long> menuIds = orderLineItems.stream()
                 .map(OrderLineItem::getMenuId)
@@ -75,6 +73,12 @@ public class OrderService {
         savedOrder.setOrderLineItems(savedOrderLineItems);
 
         return savedOrder;
+    }
+
+    private void validateOrderLineTimesEmpty(List<OrderLineItem> orderLineItems) {
+        if (CollectionUtils.isEmpty(orderLineItems)) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public List<Order> list() {
