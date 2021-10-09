@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -44,7 +43,7 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 
 		// then
 		품목이_조회됨(response);
-		품목에_값들이_쫀재함(response);
+		품목에_값들이_존재함(response);
 	}
 
 	static ExtractableResponse<Response> 품목_조회를_요청한다() {
@@ -88,7 +87,7 @@ public class ProductRestAcceptanceTest extends AcceptanceTest {
 		return createdProduct.body().as(ProductResponse.class).getId();
 	}
 
-	private void 품목에_값들이_쫀재함(ExtractableResponse<Response> response) {
+	private void 품목에_값들이_존재함(ExtractableResponse<Response> response) {
 		List<ProductResponse> products = response.body().as(ProductsResponse.class).getProducts();
 		products.forEach(product -> assertThat(product.getId()).isNotNull());
 	}
