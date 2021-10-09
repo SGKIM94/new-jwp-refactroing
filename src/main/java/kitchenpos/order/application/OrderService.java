@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,14 +51,20 @@ public class OrderService {
 
         final Order savedOrder = orderDao.save(new Order(order, orderTable.getId()));
 
-        final Long orderId = savedOrder.getId();
+        return saveOrderOrderLineItems(orderLineItems, savedOrder);
+    }
 
+    private Order saveOrderOrderLineItems(List<OrderLineItem> orderLineItems, Order savedOrder) {
         final List<OrderLineItem> savedOrderLineItems = new ArrayList<>();
+
+        Long orderId = savedOrder.getId();
+
         for (final OrderLineItem orderLineItem : orderLineItems) {
-            orderLineItem.setOrderId(orderId);
+            orderLineItem.mappingOrderId(orderId);
             savedOrderLineItems.add(orderLineItemDao.save(orderLineItem));
         }
-        savedOrder.setOrderLineItems(savedOrderLineItems);
+
+        savedOrder.mappingOrderLineItems(savedOrderLineItems);
 
         return savedOrder;
     }
@@ -86,7 +91,7 @@ public class OrderService {
         final List<Order> orders = orderDao.findAll();
 
         for (final Order order : orders) {
-            order.setOrderLineItems(orderLineItemDao.findAllByOrderId(order.getId()));
+            order.mappingOrderLineItems(orderLineItemDao.findAllByOrderId(order.getId()));
         }
 
         return orders;
@@ -106,7 +111,7 @@ public class OrderService {
 
         orderDao.save(savedOrder);
 
-        savedOrder.setOrderLineItems(orderLineItemDao.findAllByOrderId(orderId));
+        savedOrder.mappingOrderLineItems(orderLineItemDao.findAllByOrderId(orderId));
 
         return savedOrder;
     }

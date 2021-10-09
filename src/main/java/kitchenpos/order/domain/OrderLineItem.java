@@ -18,7 +18,7 @@ public class OrderLineItem {
         return orderId;
     }
 
-    public void setOrderId(final Long orderId) {
+    public void mappingOrderId(final Long orderId) {
         this.orderId = orderId;
     }
 
