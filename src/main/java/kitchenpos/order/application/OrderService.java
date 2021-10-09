@@ -45,9 +45,7 @@ public class OrderService {
 
         final List<Long> menuIds = extractMenuIdsByOrderLineItems(orderLineItems);
 
-        if (orderLineItems.size() != menuDao.countByIdIn(menuIds)) {
-            throw new IllegalArgumentException();
-        }
+        checkCountOfOrderLineItems(orderLineItems, menuIds);
 
         final OrderTable orderTable = orderTableDao.findById(order.getOrderTableId())
                 .orElseThrow(IllegalArgumentException::new);
@@ -71,6 +69,12 @@ public class OrderService {
         savedOrder.setOrderLineItems(savedOrderLineItems);
 
         return savedOrder;
+    }
+
+    private void checkCountOfOrderLineItems(List<OrderLineItem> orderLineItems, List<Long> menuIds) {
+        if (orderLineItems.size() != menuDao.countByIdIn(menuIds)) {
+            throw new IllegalArgumentException();
+        }
     }
 
     private List<Long> extractMenuIdsByOrderLineItems(List<OrderLineItem> orderLineItems) {
