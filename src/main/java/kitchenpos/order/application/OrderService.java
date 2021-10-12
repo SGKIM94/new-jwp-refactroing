@@ -6,6 +6,7 @@ import kitchenpos.order.dao.OrderLineItemDao;
 import kitchenpos.order.dao.OrderTableDao;
 import kitchenpos.order.domain.Order;
 import kitchenpos.order.domain.OrderLineItem;
+import kitchenpos.order.domain.OrderLineItems;
 import kitchenpos.order.domain.OrderStatus;
 import kitchenpos.order.domain.OrderTable;
 import org.springframework.stereotype.Service;
@@ -38,28 +39,26 @@ public class OrderService {
 
     @Transactional
     public Order create(final Order order) {
-        final List<OrderLineItem> orderLineItems = order.getOrderLineItems();
+        OrderLineItems orderLineItemss = new OrderLineItems(order.getOrderLineItems());
 
-        validateOrderLineTimesEmpty(orderLineItems);
+        final List<Long> menuIds = orderLineItemss.extractMenuIdsByOrderLineItems();
 
-        final List<Long> menuIds = extractMenuIdsByOrderLineItems(orderLineItems);
-
-        checkCountOfOrderLineItems(orderLineItems, menuIds);
+        orderLineItemss.checkCountOfOrderLineItems(menuDao.countByIdIn(menuIds));
 
         final OrderTable orderTable = orderTableDao.findById(order.getOrderTableId())
                 .orElseThrow(IllegalArgumentException::new);
 
         final Order savedOrder = orderDao.save(new Order(order, orderTable.getId()));
 
-        return saveOrderOrderLineItems(orderLineItems, savedOrder);
+        return saveOrderOrderLineItems(orderLineItemss, savedOrder);
     }
 
-    private Order saveOrderOrderLineItems(List<OrderLineItem> orderLineItems, Order savedOrder) {
+    private Order saveOrderOrderLineItems(OrderLineItems orderLineItems, Order savedOrder) {
         final List<OrderLineItem> savedOrderLineItems = new ArrayList<>();
 
         Long orderId = savedOrder.getId();
 
-        for (final OrderLineItem orderLineItem : orderLineItems) {
+        for (final OrderLineItem orderLineItem : orderLineItems.getOrderLineItems()) {
             orderLineItem.mappingOrderId(orderId);
             savedOrderLineItems.add(orderLineItemDao.save(orderLineItem));
         }
@@ -67,24 +66,6 @@ public class OrderService {
         savedOrder.mappingOrderLineItems(savedOrderLineItems);
 
         return savedOrder;
-    }
-
-    private void checkCountOfOrderLineItems(List<OrderLineItem> orderLineItems, List<Long> menuIds) {
-        if (orderLineItems.size() != menuDao.countByIdIn(menuIds)) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private List<Long> extractMenuIdsByOrderLineItems(List<OrderLineItem> orderLineItems) {
-        return orderLineItems.stream()
-                .map(OrderLineItem::getMenuId)
-                .collect(Collectors.toList());
-    }
-
-    private void validateOrderLineTimesEmpty(List<OrderLineItem> orderLineItems) {
-        if (CollectionUtils.isEmpty(orderLineItems)) {
-            throw new IllegalArgumentException();
-        }
     }
 
     public List<Order> list() {
