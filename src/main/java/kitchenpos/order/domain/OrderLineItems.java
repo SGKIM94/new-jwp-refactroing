@@ -18,6 +18,13 @@ public class OrderLineItems {
 			throw new IllegalArgumentException();
 		}
 	}
+
+	public void checkCountOfOrderLineItems(long countOfMenuIds) {
+		if (orderLineItems.size() != countOfMenuIds) {
+			throw new IllegalArgumentException();
+		}
+	}
+
 	public List<Long> extractMenuIdsByOrderLineItems() {
 		return orderLineItems.stream()
 				.map(OrderLineItem::getMenuId)
