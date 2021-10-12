@@ -9,7 +9,14 @@ public class OrderLineItems {
 	private final List<OrderLineItem> orderLineItems;
 
 	public OrderLineItems(List<OrderLineItem> orderLineItems) {
+		validateOrderLineTimesEmpty(orderLineItems);
 		this.orderLineItems = orderLineItems;
+	}
+
+	private void validateOrderLineTimesEmpty(List<OrderLineItem> orderLineItems) {
+		if (CollectionUtils.isEmpty(orderLineItems)) {
+			throw new IllegalArgumentException();
+		}
 	}
 	public List<Long> extractMenuIdsByOrderLineItems() {
 		return orderLineItems.stream()
