@@ -100,9 +100,4 @@ public class OrderService {
             throw new IllegalArgumentException();
         }
     }
-
-    public OrderTable findOrderTableById(long orderTableId) {
-        return orderTableDao.findById(orderTableId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
 }
