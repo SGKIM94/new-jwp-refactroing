@@ -63,7 +63,7 @@ public class TableService {
         final OrderTable savedOrderTable = orderTableDao.findById(orderTableId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        checkSavedOrderTableEmpty(savedOrderTable);
+        savedOrderTable.checkSavedOrderTableEmpty();
 
         savedOrderTable.setNumberOfGuests(numberOfGuests);
 
@@ -72,12 +72,6 @@ public class TableService {
 
     private void validateNumberOfGuests(int numberOfGuests) {
         if (numberOfGuests < MINIMUM_NUMBER_OF_GUESTS) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void checkSavedOrderTableEmpty(OrderTable savedOrderTable) {
-        if (savedOrderTable.isEmpty()) {
             throw new IllegalArgumentException();
         }
     }

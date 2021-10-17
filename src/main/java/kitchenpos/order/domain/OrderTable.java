@@ -38,6 +38,12 @@ public class OrderTable {
         }
     }
 
+    public void checkSavedOrderTableEmpty() {
+        if (this.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
     public Long getId() {
         return id;
     }
