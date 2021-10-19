@@ -49,7 +49,7 @@ public class Order {
         return orderStatus;
     }
 
-    public void setOrderStatus(final String orderStatus) {
+    public void mappingOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
 
