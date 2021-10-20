@@ -13,14 +13,6 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, Long orderTableId, String orderStatus, LocalDateTime orderedTime, List<OrderLineItem> orderLineItems) {
-        this.id = id;
-        this.orderTableId = orderTableId;
-        this.orderStatus = orderStatus;
-        this.orderedTime = orderedTime;
-        this.orderLineItems = orderLineItems;
-    }
-
     public Order(Order requestOrder, Long orderTableId) {
         this.id = requestOrder.getId();
         this.orderTableId = orderTableId;
@@ -51,10 +43,6 @@ public class Order {
 
     public void mappingOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
-    }
-
-    public LocalDateTime getOrderedTime() {
-        return orderedTime;
     }
 
     public void setOrderedTime(final LocalDateTime orderedTime) {
