@@ -3,6 +3,8 @@ package kitchenpos.order.domain;
 import java.util.Objects;
 
 public class OrderTable {
+    public static final int EMPTY_OF_GUEST = 0;
+
     private Long id;
     private TableGroup tableGroup;
     private int numberOfGuests;
@@ -29,7 +31,7 @@ public class OrderTable {
     }
 
     public static OrderTable emptyTable() {
-        return new OrderTable(null, 0, true);
+        return new OrderTable(null, EMPTY_OF_GUEST, true);
     }
 
     public void validateTableGroupId() {
