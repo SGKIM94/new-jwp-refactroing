@@ -1,8 +1,5 @@
 package kitchenpos.menu.domain;
 
-import kitchenpos.product.domain.Product;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 public class MenuProducts {
