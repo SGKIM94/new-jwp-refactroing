@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class Price {
 	public static final int MINIMUM = 0;
-	public static final Price ZERO = new Price(0);
 
 	private final long price;
 
