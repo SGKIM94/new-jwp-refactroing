@@ -24,11 +24,6 @@ public class Menu {
         this.menuGroup = menuGroup;
     }
 
-    public Menu(Long id, String name, Price price, MenuGroup menuGroup, MenuProducts menuProducts) {
-        this(name, price, menuGroup, menuProducts);
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
