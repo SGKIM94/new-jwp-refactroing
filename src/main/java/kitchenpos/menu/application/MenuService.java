@@ -69,14 +69,14 @@ public class MenuService {
             savedMenuProducts.add(menuProductDao.save(menuProduct));
         }
 
-        savedMenu.setMenuProducts(new MenuProducts(savedMenuProducts));
+        savedMenu.mappingMenuProducts(new MenuProducts(savedMenuProducts));
     }
 
     public List<Menu> list() {
         final List<Menu> menus = menuDao.findAll();
 
         for (final Menu menu : menus) {
-            menu.setMenuProducts(new MenuProducts(menuProductDao.findAllByMenuId(menu.getId())));
+            menu.mappingMenuProducts(new MenuProducts(menuProductDao.findAllByMenuId(menu.getId())));
         }
 
         return menus;

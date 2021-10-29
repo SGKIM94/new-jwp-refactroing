@@ -56,7 +56,7 @@ public class Menu {
         return menuProducts;
     }
 
-    public void setMenuProducts(MenuProducts menuProducts) {
+    public void mappingMenuProducts(MenuProducts menuProducts) {
         this.menuProducts = menuProducts;
     }
 
