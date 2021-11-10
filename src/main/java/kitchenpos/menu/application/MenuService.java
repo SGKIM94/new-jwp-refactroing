@@ -35,10 +35,6 @@ public class MenuService {
 
     @Transactional
     public MenuResponse create(final MenuRequest menu) {
-        final Price price = menu.getPrice();
-
-        price.validatePrice();
-
         menuGroupService.checkMenuGroupsExist(menu);
 
         MenuProducts menuProducts = findAllMenuProducts(menu);

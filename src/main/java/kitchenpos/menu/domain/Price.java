@@ -26,12 +26,6 @@ public class Price {
 		}
 	}
 
-	public void validatePrice() {
-		if (price < MINIMUM) {
-			throw new IllegalArgumentException("가격은 0보다 작을 수 없습니다. : " + price);
-		}
-	}
-
 	public long multiply(long quantity) {
 		return price * quantity;
 	}
