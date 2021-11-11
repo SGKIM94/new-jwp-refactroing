@@ -1,5 +1,7 @@
 package kitchenpos.menu.domain;
 
+import java.util.List;
+
 public class Menu {
     private Long id;
     private String name;
@@ -56,8 +58,8 @@ public class Menu {
         return menuProducts;
     }
 
-    public void mappingMenuProducts(MenuProducts menuProducts) {
-        this.menuProducts = menuProducts;
+    public void mappingMenuProducts(List<MenuProduct> savedMenuProducts) {
+        this.menuProducts = new MenuProducts(savedMenuProducts);
     }
 
     public MenuGroup getMenuGroup() {
