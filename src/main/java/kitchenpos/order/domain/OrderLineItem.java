@@ -6,10 +6,6 @@ public class OrderLineItem {
     private Long menuId;
     private long quantity;
 
-    public Long getSeq() {
-        return seq;
-    }
-
     public void setSeq(final Long seq) {
         this.seq = seq;
     }
