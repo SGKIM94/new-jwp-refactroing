@@ -7,12 +7,14 @@ import kitchenpos.order.domain.OrderStatus;
 import kitchenpos.order.domain.OrderTable;
 import kitchenpos.order.domain.OrderTables;
 import kitchenpos.order.domain.TableGroup;
+import kitchenpos.order.dto.TableGroupRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TableGroupService {
@@ -27,8 +29,11 @@ public class TableGroupService {
     }
 
     @Transactional
-    public TableGroup create(final TableGroup tableGroup) {
-        OrderTables orderTables = new OrderTables(tableGroup.getOrderTables());
+    public TableGroup create(final TableGroupRequest tableGroup) {
+        OrderTables orderTables = new OrderTables(tableGroup.getOrderTables().stream()
+                .map(orderTableDao::findById)
+                .map(Optional::get)
+                .collect(Collectors.toList()));
 
         final List<Long> orderTableIds = orderTables.extractOrderTableIds();
 
@@ -38,9 +43,7 @@ public class TableGroupService {
 
         orderTables.checkTableGroupsExist();
 
-        tableGroup.setCreatedDate(LocalDateTime.now());
-
-        final TableGroup savedTableGroup = tableGroupDao.save(tableGroup);
+        final TableGroup savedTableGroup = tableGroupDao.save(tableGroup.toEntity());
 
         saveOrderTables(savedOrderTables);
 
