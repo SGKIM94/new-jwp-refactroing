@@ -69,9 +69,6 @@ public class TableGroupService {
             throw new IllegalArgumentException();
         }
 
-
-        for (final OrderTable orderTable : orderTables.getOrderTables()) {
-            orderTableDao.save(new OrderTable(null));
-        }
+        orderTables.getOrderTables().forEach(tables -> orderTableDao.save(new OrderTable(null)));
     }
 }
