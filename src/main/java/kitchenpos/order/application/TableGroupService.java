@@ -30,10 +30,7 @@ public class TableGroupService {
 
     @Transactional
     public TableGroup create(final TableGroupRequest tableGroup) {
-        OrderTables orderTables = new OrderTables(tableGroup.getOrderTables().stream()
-                .map(orderTableDao::findById)
-                .map(Optional::get)
-                .collect(Collectors.toList()));
+        OrderTables orderTables = findOrderTablesByRequest(tableGroup);
 
         final List<Long> orderTableIds = orderTables.extractOrderTableIds();
 
@@ -50,6 +47,13 @@ public class TableGroupService {
         savedTableGroup.mappingOrderTables(savedOrderTables);
 
         return savedTableGroup;
+    }
+
+    private OrderTables findOrderTablesByRequest(TableGroupRequest tableGroup) {
+        return new OrderTables(tableGroup.getOrderTables().stream()
+                .map(orderTableDao::findById)
+                .map(Optional::get)
+                .collect(Collectors.toList()));
     }
 
     private void saveOrderTables(List<OrderTable> savedOrderTables) {
