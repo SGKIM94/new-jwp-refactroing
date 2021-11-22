@@ -73,6 +73,10 @@ public class TableGroupService {
             throw new IllegalArgumentException();
         }
 
+        saveAllOrderTables(orderTables);
+    }
+
+    private void saveAllOrderTables(OrderTables orderTables) {
         orderTables.getOrderTables().forEach(tables -> orderTableDao.save(new OrderTable(null)));
     }
 }
