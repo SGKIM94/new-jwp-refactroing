@@ -53,7 +53,7 @@ public class TableService {
     }
 
     @Transactional
-    public OrderTable changeNumberOfGuests(final Long orderTableId, final OrderTable orderTable) {
+    public OrderTable changeNumberOfGuests(final Long orderTableId, final OrderTableRequest orderTable) {
         final int numberOfGuests = orderTable.getNumberOfGuests();
 
         validateNumberOfGuests(numberOfGuests);
