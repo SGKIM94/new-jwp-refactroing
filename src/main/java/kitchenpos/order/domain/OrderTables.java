@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class OrderTables {
+	public static final int MINIMUM_TABLE_SIZE = 2;
+
 	private List<OrderTable> orderTables;
 
 	public OrderTables(List<OrderTable> orderTables) {
@@ -15,7 +17,7 @@ public class OrderTables {
 	}
 
 	private void validateOrderTables(List<OrderTable> orderTables) {
-		if (CollectionUtils.isEmpty(orderTables) || orderTables.size() < 2) {
+		if (CollectionUtils.isEmpty(orderTables) || orderTables.size() < MINIMUM_TABLE_SIZE) {
 			throw new IllegalArgumentException();
 		}
 	}
