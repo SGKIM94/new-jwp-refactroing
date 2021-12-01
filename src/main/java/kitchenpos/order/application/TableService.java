@@ -63,9 +63,7 @@ public class TableService {
 
         savedOrderTable.checkSavedOrderTableEmpty();
 
-        savedOrderTable.setNumberOfGuests(numberOfGuests);
-
-        return orderTableDao.save(savedOrderTable);
+        return orderTableDao.save(new OrderTable(numberOfGuests));
     }
 
     private void validateNumberOfGuests(int numberOfGuests) {

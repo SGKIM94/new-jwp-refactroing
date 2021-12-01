@@ -24,6 +24,11 @@ public class OrderTable {
         this.empty = false;
     }
 
+    public OrderTable(int numberOfGuests) {
+        this.numberOfGuests = numberOfGuests;
+        this.empty = false;
+    }
+
     public OrderTable(Long id, TableGroup tableGroup) {
         this.id = id;
         this.tableGroup = tableGroup;
