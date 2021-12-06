@@ -40,7 +40,7 @@ public class TableService {
 
         validateExistsByOrderTableAndOrderStatusIn(orderTableId);
 
-        return orderTableDao.save(new OrderTable(orderTable.isEmpty()));
+        return orderTableDao.save(OrderTable.emptyTable());
     }
 
     private void validateExistsByOrderTableAndOrderStatusIn(Long orderTableId) {
