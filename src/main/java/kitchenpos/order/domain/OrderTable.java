@@ -39,6 +39,12 @@ public class OrderTable {
         return new OrderTable(null, EMPTY_OF_GUEST, true);
     }
 
+    public void validateNumberOfGuests(int numberOfGuests) {
+        if (numberOfGuests < EMPTY_OF_GUEST) {
+            throw new IllegalArgumentException();
+        }
+    }
+
     public void validateTableGroupId() {
         if (Objects.nonNull(tableGroup)) {
             throw new IllegalArgumentException();
