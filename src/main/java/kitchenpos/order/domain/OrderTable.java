@@ -88,4 +88,9 @@ public class OrderTable {
     public Object getTableGroupId() {
         return tableGroup.getId();
     }
+
+    public OrderTable toEmpty() {
+        this.empty = true;
+        return this;
+    }
 }
