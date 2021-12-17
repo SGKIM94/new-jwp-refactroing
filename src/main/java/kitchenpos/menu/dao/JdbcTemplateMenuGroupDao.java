@@ -19,6 +19,7 @@ import java.util.Optional;
 public class JdbcTemplateMenuGroupDao implements MenuGroupDao {
     private static final String TABLE_NAME = "menu_group";
     private static final String KEY_COLUMN_NAME = "id";
+    public static final String NAME_KEY = "name";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
@@ -69,6 +70,6 @@ public class JdbcTemplateMenuGroupDao implements MenuGroupDao {
     }
 
     private MenuGroup toEntity(final ResultSet resultSet) throws SQLException {
-        return new MenuGroup(resultSet.getLong("id"), resultSet.getString("name"));
+        return new MenuGroup(resultSet.getLong("id"), resultSet.getString(NAME_KEY));
     }
 }
