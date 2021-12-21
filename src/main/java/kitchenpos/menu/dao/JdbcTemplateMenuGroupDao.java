@@ -58,18 +58,18 @@ public class JdbcTemplateMenuGroupDao implements MenuGroupDao {
     public boolean existsById(final Long id) {
         final String sql = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END FROM menu_group WHERE id = (:id)";
         final SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", id);
+                .addValue(KEY_COLUMN_NAME, id);
         return jdbcTemplate.queryForObject(sql, parameters, Boolean.class);
     }
 
     private MenuGroup select(final Long id) {
         final String sql = "SELECT id, name FROM menu_group WHERE id = (:id)";
         final SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", id);
+                .addValue(KEY_COLUMN_NAME, id);
         return jdbcTemplate.queryForObject(sql, parameters, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 
     private MenuGroup toEntity(final ResultSet resultSet) throws SQLException {
-        return new MenuGroup(resultSet.getLong("id"), resultSet.getString(NAME_KEY));
+        return new MenuGroup(resultSet.getLong(KEY_COLUMN_NAME), resultSet.getString(NAME_KEY));
     }
 }
