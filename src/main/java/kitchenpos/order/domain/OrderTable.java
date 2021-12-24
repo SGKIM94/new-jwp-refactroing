@@ -35,6 +35,13 @@ public class OrderTable {
         this.empty = false;
     }
 
+    public OrderTable(Long id, TableGroup tableGroup, int numberOfGuests, boolean empty) {
+        this.id = id;
+        this.tableGroup = tableGroup;
+        this.numberOfGuests = numberOfGuests;
+        this.empty = empty;
+    }
+
     public static OrderTable emptyTable() {
         return new OrderTable(null, EMPTY_OF_GUEST, true);
     }
