@@ -1,11 +1,10 @@
 package kitchenpos.order.domain;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class TableGroup extends BaseEntity {
     private Long id;
-    private List<OrderTable> orderTables;
+    private OrderTables orderTables;
 
     public TableGroup() {
     }
@@ -15,15 +14,20 @@ public class TableGroup extends BaseEntity {
         this.id = id;
     }
 
+    public TableGroup(Long id, OrderTables orderTables) {
+        this.id = id;
+        this.orderTables = orderTables;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public List<OrderTable> getOrderTables() {
+    public OrderTables getOrderTables() {
         return orderTables;
     }
 
-    public void mappingOrderTables(final List<OrderTable> orderTables) {
+    public void mappingOrderTables(final OrderTables orderTables) {
         this.orderTables = orderTables;
     }
 }
