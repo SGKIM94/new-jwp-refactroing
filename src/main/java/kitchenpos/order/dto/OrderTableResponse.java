@@ -31,10 +31,6 @@ public class OrderTableResponse {
 		return tableGroup;
 	}
 
-	public int getNumberOfGuests() {
-		return numberOfGuests;
-	}
-
 	public boolean isEmpty() {
 		return empty;
 	}
