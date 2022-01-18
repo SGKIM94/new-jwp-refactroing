@@ -12,11 +12,6 @@ public class TableGroupRequest {
 	public TableGroupRequest() {
 	}
 
-	public TableGroupRequest(Long id, List<Long> orderTables) {
-		this.id = id;
-		this.orderTables = orderTables;
-	}
-
 	public Long getId() {
 		return id;
 	}
