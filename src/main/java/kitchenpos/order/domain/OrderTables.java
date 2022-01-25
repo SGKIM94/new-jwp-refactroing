@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class OrderTables {
 	public static final int MINIMUM_TABLE_SIZE = 2;
 
-	private List<OrderTable> orderTables;
+	private final List<OrderTable> orderTables;
 
 	public OrderTables(List<OrderTable> orderTables) {
 		validateOrderTables(orderTables);
