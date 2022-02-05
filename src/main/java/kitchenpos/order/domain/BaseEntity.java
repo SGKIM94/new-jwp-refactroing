@@ -14,16 +14,6 @@ public class BaseEntity {
 		this.createdDate = createdDate;
 	}
 
-	public BaseEntity(Long id, LocalDateTime createdDate) {
-		this.id = id;
-		this.createdDate = createdDate;
-	}
-
-	public BaseEntity(LocalDateTime createdDate, LocalDateTime updatedDate) {
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
-	}
-
 	public Long getId() {
 		return id;
 	}
