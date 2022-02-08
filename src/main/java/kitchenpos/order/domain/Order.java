@@ -1,5 +1,6 @@
 package kitchenpos.order.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,20 +22,19 @@ public class Order {
         this.orderLineItems = requestOrder.getOrderLineItems();
     }
 
+    public Order(long id, long orderTableId, String orderStatus, LocalDateTime orderTime) {
+        this.id = id;
+        this.orderTableId = orderTableId;
+        this.orderStatus = orderStatus;
+        this.orderedTime = orderTime;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
     public Long getOrderTableId() {
         return orderTableId;
-    }
-
-    public void setOrderTableId(final Long orderTableId) {
-        this.orderTableId = orderTableId;
     }
 
     public String getOrderStatus() {
@@ -43,10 +43,6 @@ public class Order {
 
     public void mappingOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
-    }
-
-    public void setOrderedTime(final LocalDateTime orderedTime) {
-        this.orderedTime = orderedTime;
     }
 
     public List<OrderLineItem> getOrderLineItems() {
