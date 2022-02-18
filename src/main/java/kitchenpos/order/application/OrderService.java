@@ -69,11 +69,15 @@ public class OrderService {
     public List<Order> list() {
         final List<Order> orders = orderDao.findAll();
 
+        mappingAllOrderLineTime(orders);
+
+        return orders;
+    }
+
+    private void mappingAllOrderLineTime(List<Order> orders) {
         for (final Order order : orders) {
             order.mappingOrderLineItems(orderLineItemDao.findAllByOrderId(order.getId()));
         }
-
-        return orders;
     }
 
     @Transactional
